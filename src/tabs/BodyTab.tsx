@@ -1,4 +1,4 @@
-import { AircraftBody, AircraftBodyComponent, defaultAircraftBody, defaultAircraftBodyComponent } from '../simdata';
+import { AircraftBody, AircraftBodyComponent, defaultAircraftBody, defaultAircraftBodyComponent } from '../aircraft/body';
 import update from 'immutability-helper'
 import React, { useState } from 'react'
 import { Button, Form, Row, Table, Col, Modal } from 'react-bootstrap';
@@ -7,7 +7,10 @@ import units from '../components/units';
 
 export function BodyTab() {
     //Hooks
+    //const [simBody, setSimBodyRaw] = useState(defaultAircraftBody);
     const [simBody, setSimBody] = useState(defaultAircraftBody);
+
+    //const setSimBody = (simBody:AircraftBody) => setSimBodyRaw(Calculate)
 
     //Render
     return <>
@@ -140,10 +143,8 @@ function ComponentsTable({ simBody, setSimBody }: AircraftBodyViewerProps) {
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Component</th>  <div className="mb-2">
-                    </div>
+                    <th>Component</th>
                     <th>Density (%)</th>
-                    <th>Mass (kg)</th>
                     <th>Centroid X (mm)</th>
                     <th>Centroid Y (mm)</th>
                     <th>Centroid Z (mm)</th>
@@ -153,9 +154,11 @@ function ComponentsTable({ simBody, setSimBody }: AircraftBodyViewerProps) {
                     <th>Vis Front (%)</th>
                     <th>Vis Side (%)</th>
                     <th>Vis Bottom/Top (%)</th>
+                    <th>Mass (kg)</th>
                     <th>I<sub>XX</sub></th>
                     <th>I<sub>YY</sub></th>
                     <th>I<sub>ZZ</sub></th>
+                    <th>I<sub>YZ</sub></th>
                     <th>x<sub>1</sub></th>
                     <th>x<sub>2</sub></th>
                     <th>y<sub>1</sub></th>
@@ -175,14 +178,69 @@ function ComponentsTable({ simBody, setSimBody }: AircraftBodyViewerProps) {
                         setSimBody(update(simBody, { components: { index: { name: { $set: val } } } }));
                     }
 
-                    const handleSimBodyDensityChange = (val: number) => {
-                        setSimBody(update(simBody, { components: { index: { density: { $set: val } } } }));
+                    const handlePctDensityChange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { pctDensity: { $set: val } } } }));
+                    };
+
+                    const handleMassChange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { mass: { $set: val } } } }));
+                    };
+
+                    const handleCentroidXchange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { mass: { $set: val } } } }));
+                    };
+                    const handleCentroidYchange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { mass: { $set: val } } } }));
+                    };
+                    const handleCentroidZchange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { mass: { $set: val } } } }));
+                    };
+
+                    const handleDimensionsXchange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { mass: { $set: val } } } }));
+                    };
+                    const handleDimensionsYchange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { mass: { $set: val } } } }));
+                    };
+                    const handleDimensionsZchange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { mass: { $set: val } } } }));
+                    };
+
+                    const handleAreaVisibilityXchange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { mass: { $set: val } } } }));
+                    };
+                    const handleAreaVisibilityYchange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { mass: { $set: val } } } }));
+                    };
+                    const handleAreaVisibilityZchange = (val: number) => {
+                        setSimBody(update(simBody, { components: { index: { mass: { $set: val } } } }));
                     };
 
                     return <tr key={index}>
                         <td onClick={() => handleEditComponent(index)}>{index + 1}</td>
-                        <td><StringInput value={component.name} onChange={handleNameChange} /></td>
-                        <td><NumericInput defaultValue={simBody.density} onChange={handleSimBodyDensityChange} min={0} /></td>
+                        <td>{component.name}</td>
+                        <td>{component.pctDensity}</td>
+                        <td>{component.centroid.x}</td>
+                        <td>{component.centroid.y}</td>
+                        <td>{component.centroid.z}</td>
+                        <td>{component.dimensions.x}</td>
+                        <td>{component.dimensions.y}</td>
+                        <td>{component.dimensions.z}</td>
+                        <td>{component.areaVisibility.x}</td>
+                        <td>{component.areaVisibility.y}</td>
+                        <td>{component.areaVisibility.z}</td>
+                        <td>{component.mass}</td>
+                        <td>{component.momOfInertia.w}</td>
+                        <td>{component.momOfInertia.x}</td>
+                        <td>{component.momOfInertia.y}</td>
+                        <td>{component.momOfInertia.z}</td>
+                        <td>{component.xCoords.x}</td>
+                        <td>{component.xCoords.y}</td>
+                        <td>{component.yCoords.x}</td>
+                        <td>{component.yCoords.y}</td>
+                        <td>{component.zCoords.x}</td>
+                        <td>{component.zCoords.y}</td>
+                        <td></td>
                     </tr>
                 })}
             </tbody>
